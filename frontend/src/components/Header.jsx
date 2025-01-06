@@ -73,7 +73,9 @@ const Header = () => {
           <FaMoon />
         </Button>
         <Link to="/sign-in">
-          <Button gradientDuoTone="purpleToBlue">Sign In</Button>
+          <Button gradientDuoTone="purpleToPink" outline>
+            Sign In
+          </Button>
         </Link>
         <Navbar.Toggle className="" />
       </div>

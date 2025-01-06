@@ -7,6 +7,8 @@ import Projects from "./pages/Projects.jsx";
 import SignIn from "./pages/SignIn.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Header from "./components/Header.jsx";
+import Footer from "./components/Footer.jsx";
+
 function App() {
   return (
     <div className="">
@@ -20,6 +22,7 @@ function App() {
           <Route path="/signin" element={<SignIn />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   );

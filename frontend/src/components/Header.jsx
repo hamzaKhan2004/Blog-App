@@ -41,7 +41,7 @@ const Header = () => {
               className={`${
                 path === "/"
                   ? " text-green-700 border-b-2    border-b-green-500"
-                  : " text-black"
+                  : " text-black dark:text-gray-200"
               } ml-3 text-base transition-all  duration-200`}
             >
               Home
@@ -53,7 +53,7 @@ const Header = () => {
               className={`${
                 path === "/about"
                   ? " text-green-700 border-b-2   border-b-green-500"
-                  : " text-black"
+                  : " text-black dark:text-gray-200"
               }  text-base transition-all duration-200`}
             >
               About
@@ -65,7 +65,7 @@ const Header = () => {
               className={`${
                 path === "/projects"
                   ? " text-green-700 border-b-2   border-b-green-500"
-                  : " text-black"
+                  : " text-black dark:text-gray-200"
               } text-base transition-all duration-200`}
             >
               Projects
@@ -82,7 +82,6 @@ const Header = () => {
           onClick={() => dispatch(toggleTheme())}
         >
           {theme === "light" ? <FaSun /> : <FaMoon />}
-          {/* <FaMoon /> */}
         </Button>
         {currentUser ? (
           <Dropdown

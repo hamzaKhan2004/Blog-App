@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
+// eslint-disable-next-line react/prop-types
 const ThemeProvider = ({ children }) => {
   const { theme } = useSelector((state) => state.theme);
   return (

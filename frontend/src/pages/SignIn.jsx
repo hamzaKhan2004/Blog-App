@@ -20,17 +20,23 @@ const SignIn = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Ensure both fields are filled
     if (!formData.email || !formData.password) {
       return dispatch(signInFailure("Please fill out all fields"));
     }
     try {
-      dispatch(signInStart);
+      // Correctly dispatch the signInStart action
+      dispatch(signInStart());
+
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
+
+      // Check if the API call failed
       if (data.success === false) {
         dispatch(signInFailure(data.message));
       }
@@ -43,6 +49,7 @@ const SignIn = () => {
       dispatch(signInFailure(error.message));
     }
   };
+
   return (
     <div className="min-h-screen mt-20">
       <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
@@ -89,7 +96,7 @@ const SignIn = () => {
                 {loading ? (
                   <>
                     <Spinner size="sm" />
-                    <span className="pl-3">Loadding...</span>
+                    <span className="pl-3">Loading...</span>
                   </>
                 ) : (
                   "Sign in"

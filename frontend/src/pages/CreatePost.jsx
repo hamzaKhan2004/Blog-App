@@ -34,7 +34,7 @@ const CreatePost = () => {
 
       // Upload image to Cloudinary
       const res = await axios.post(
-        `https://api.cloudinary.com/v1_1/dij93sjhp/image/upload`,
+        "https://api.cloudinary.com/v1_1/dij93sjhp/image/upload",
         data,
         {
           onUploadProgress: (progressEvent) => {

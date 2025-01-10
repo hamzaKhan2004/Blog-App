@@ -1,9 +1,9 @@
-import { TextInput, Button, Modal, Alert } from "flowbite-react";
+import { TextInput, Button, Modal } from "flowbite-react";
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   updateStart,
   updateFailure,
@@ -18,13 +18,15 @@ const DashProfile = () => {
   const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
+  const [imageUploadProgress, setImageUploadProgress] = useState(null);
+  const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const filePickerRef = useRef();
 
-  //For Profile Images
+  // For Profile Images
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -32,46 +34,92 @@ const DashProfile = () => {
       setImageFileUrl(URL.createObjectURL(file));
     }
   };
-  useEffect(() => {
-    if (imageFile) {
-      uploadImage();
+
+  const uploadImageToCloudinary = async () => {
+    if (!imageFile) return;
+    try {
+      setImageUploadError(null);
+      setImageUploadProgress(0);
+
+      const cloudinaryFormData = new FormData();
+      cloudinaryFormData.append("file", imageFile);
+      cloudinaryFormData.append("upload_preset", "Post_image"); // Your Cloudinary preset
+      cloudinaryFormData.append("cloud_name", "dij93sjhp");
+
+      const res = await axios.post(
+        "https://api.cloudinary.com/v1_1/dij93sjhp/image/upload",
+        cloudinaryFormData,
+        {
+          onUploadProgress: (progressEvent) => {
+            const progress = Math.round(
+              (progressEvent.loaded / progressEvent.total) * 100
+            );
+            setImageUploadProgress(progress);
+          },
+        }
+      );
+
+      const uploadImageURL = res.data.secure_url;
+      setImageFileUrl(uploadImageURL);
+
+      // Persist the profile picture in the formData state
+      setFormData((prev) => ({ ...prev, profilePicture: uploadImageURL }));
+      setImageUploadProgress(null);
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      setImageUploadError("Image upload failed. Please try again.");
+      setImageUploadProgress(null);
     }
-  }, [imageFile]);
-  const uploadImage = async () => {
-    console.log("Uploading...");
   };
 
-  //For Updating The Profile
+  useEffect(() => {
+    if (imageFile) {
+      uploadImageToCloudinary();
+    }
+  }, [imageFile]);
+
+  // For Updating The Profile
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Ensure formData includes the updated profilePicture
+    if (imageFileUrl && !formData.profilePicture) {
+      setFormData((prev) => ({ ...prev, profilePicture: imageFileUrl }));
+    }
+
     if (Object.keys(formData).length === 0) {
+      console.log("No changes to update");
       return;
     }
+
     try {
       dispatch(updateStart());
+
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
-        credentials: "include", // Include cookies in the request
+        credentials: "include",
       });
+
       const data = await res.json();
       if (!res.ok) {
         dispatch(updateFailure(data.message));
       } else {
         dispatch(updateSuccess(data));
+        console.log("Profile updated successfully");
       }
     } catch (error) {
       dispatch(updateFailure(error.message));
+      console.error("Profile update failed:", error.message);
     }
   };
 
-  //For Deleting The Profile
+  // For Deleting The Profile
   const handleDeleteUser = async () => {
     setShowModal(false);
     try {
@@ -91,18 +139,13 @@ const DashProfile = () => {
     }
   };
 
-  //For User Signout
+  // For User Signout
   const handleSignout = async () => {
     try {
-      const res = await fetch("/api/user/signout", {
-        method: "POST",
-      });
+      const res = await fetch("/api/user/signout", { method: "POST" });
       const data = await res.json();
-      if (!res.ok) {
-        console.log(data.message);
-      } else {
-        dispatch(signoutSuccess());
-      }
+      if (!res.ok) console.log(data.message);
+      else dispatch(signoutSuccess());
     } catch (error) {
       console.log(error.message);
     }
@@ -129,7 +172,9 @@ const DashProfile = () => {
             className="rounded-full w-full h-full object-cover border-4 border-[lightgray]"
           />
         </div>
-
+        {imageUploadProgress !== null && (
+          <p>Uploading image: {imageUploadProgress}%</p>
+        )}
         <TextInput
           type="text"
           id="username"
@@ -144,14 +189,12 @@ const DashProfile = () => {
           onChange={handleChange}
           defaultValue={currentUser.email}
         />
-
         <TextInput
           type="password"
           id="password"
           placeholder="password"
           onChange={handleChange}
         />
-
         <Button
           type="submit"
           gradientDuoTone="purpleToPink"
@@ -160,17 +203,6 @@ const DashProfile = () => {
         >
           {loading ? "Loading..." : "Update"}
         </Button>
-        {currentUser.isAdmin && (
-          <Link to={"/create-post"}>
-            <Button
-              type="button"
-              gradientDuoTone="purpleToPink"
-              className="w-full"
-            >
-              Create a post
-            </Button>
-          </Link>
-        )}
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span className="cursor-pointer" onClick={() => setShowModal(true)}>
@@ -199,7 +231,7 @@ const DashProfile = () => {
                   Yes, I&apos;m sure
                 </Button>
                 <Button color="gray" onClick={() => setShowModal(false)}>
-                  No, cancle
+                  No, cancel
                 </Button>
               </div>
             </div>

@@ -56,7 +56,7 @@ const Header = () => {
               to="/"
               className={`${
                 path === "/"
-                  ? " text-green-700 border-b-2    border-b-green-500"
+                  ? " text-green-700 dark:text-green-300 border-b-2    border-b-green-500"
                   : " text-black dark:text-gray-200"
               } ml-3 text-base transition-all  duration-200`}
             >
@@ -68,7 +68,7 @@ const Header = () => {
               to="/about"
               className={`${
                 path === "/about"
-                  ? " text-green-700 border-b-2   border-b-green-500"
+                  ? " text-green-700 dark:text-green-300 border-b-2   border-b-green-500"
                   : " text-black dark:text-gray-200"
               }  text-base transition-all duration-200`}
             >
@@ -80,7 +80,7 @@ const Header = () => {
               to="/projects"
               className={`${
                 path === "/projects"
-                  ? " text-green-700 border-b-2   border-b-green-500"
+                  ? " text-green-700 dark:text-green-300 border-b-2   border-b-green-500"
                   : " text-black dark:text-gray-200"
               } text-base transition-all duration-200`}
             >

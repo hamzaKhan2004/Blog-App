@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   updateStart,
   updateFailure,
@@ -15,7 +15,7 @@ import {
 } from "../redux/user/userSlice";
 
 const DashProfile = () => {
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [formData, setFormData] = useState({});
@@ -23,6 +23,8 @@ const DashProfile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const filePickerRef = useRef();
+
+  //For Profile Images
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -39,10 +41,10 @@ const DashProfile = () => {
     console.log("Uploading...");
   };
 
+  //For Updating The Profile
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (Object.keys(formData).length === 0) {
@@ -69,6 +71,7 @@ const DashProfile = () => {
     }
   };
 
+  //For Deleting The Profile
   const handleDeleteUser = async () => {
     setShowModal(false);
     try {
@@ -88,6 +91,7 @@ const DashProfile = () => {
     }
   };
 
+  //For User Signout
   const handleSignout = async () => {
     try {
       const res = await fetch("/api/user/signout", {
@@ -103,6 +107,7 @@ const DashProfile = () => {
       console.log(error.message);
     }
   };
+
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center text-3xl font-semibold">Profile</h1>
@@ -147,9 +152,25 @@ const DashProfile = () => {
           onChange={handleChange}
         />
 
-        <Button type="submit" gradientDuoTone="purpleToPink" outline>
-          Update
+        <Button
+          type="submit"
+          gradientDuoTone="purpleToPink"
+          outline
+          disabled={loading}
+        >
+          {loading ? "Loading..." : "Update"}
         </Button>
+        {currentUser.isAdmin && (
+          <Link to={"/create-post"}>
+            <Button
+              type="button"
+              gradientDuoTone="purpleToPink"
+              className="w-full"
+            >
+              Create a post
+            </Button>
+          </Link>
+        )}
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span className="cursor-pointer" onClick={() => setShowModal(true)}>

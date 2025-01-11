@@ -218,6 +218,7 @@ const DashProfile = () => {
           onClose={() => setShowModal(false)}
           popup
           size="md"
+          className="bg-transparent my-52"
         >
           <Modal.Header />
           <Modal.Body>

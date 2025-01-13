@@ -14,11 +14,13 @@ import CreatePost from "./pages/CreatePost.jsx";
 import UpdatePost from "./pages/UpdatePost.jsx";
 import PostPage from "./pages/PostPage.jsx";
 import "./index.css";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 
 function App() {
   return (
     <div className="">
       <BrowserRouter>
+        <ScrollToTop />
         <Header />
         <Routes>
           <Route path="/" element={<Home />}></Route>

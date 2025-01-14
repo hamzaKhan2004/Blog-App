@@ -6,6 +6,7 @@ import {
   HiArrowSmRight,
   HiDocumentText,
   HiOutlineUserGroup,
+  HiAnnotation,
 } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -66,15 +67,26 @@ const DashSidebar = () => {
           )}
 
           {currentUser.isAdmin && (
-            <Link to="/dashboard?tab=users">
-              <Sidebar.Item
-                icon={HiOutlineUserGroup}
-                active={tab === "users"}
-                as="div"
-              >
-                Users
-              </Sidebar.Item>
-            </Link>
+            <>
+              <Link to="/dashboard?tab=users">
+                <Sidebar.Item
+                  icon={HiOutlineUserGroup}
+                  active={tab === "users"}
+                  as="div"
+                >
+                  Users
+                </Sidebar.Item>
+              </Link>
+              <Link to="/dashboard?tab=comments">
+                <Sidebar.Item
+                  icon={HiAnnotation}
+                  active={tab === "comments"}
+                  as="div"
+                >
+                  Comments
+                </Sidebar.Item>
+              </Link>
+            </>
           )}
 
           <Sidebar.Item

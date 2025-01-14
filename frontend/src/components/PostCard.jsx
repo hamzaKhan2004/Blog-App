@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 function PostCard({ post }) {
   return (
-    <div className="group relative w-full border border-teal-500 hover:border-2 h-[400px] overflow-hidden rounded-lg sm:w-[430px] transition-all">
+    <div className="group relative w-full border border-teal-500 hover:border-2 h-[400px] overflow-hidden rounded-lg sm:w-[350px] transition-all">
       <Link to={`/post/${post.slug}`}>
         <img
           src={post.image}
@@ -24,5 +25,14 @@ function PostCard({ post }) {
     </div>
   );
 }
+
+PostCard.propTypes = {
+  post: PropTypes.shape({
+    slug: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default PostCard;

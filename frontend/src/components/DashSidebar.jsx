@@ -7,6 +7,7 @@ import {
   HiDocumentText,
   HiOutlineUserGroup,
   HiAnnotation,
+  HiChartPie,
 } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -42,6 +43,17 @@ const DashSidebar = () => {
     <Sidebar aria-label="Dashboard Sidebar" className="w-full md:w-56">
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-1">
+          {currentUser && currentUser.isAdmin && (
+            <Link to="/dashboard?tab=dash">
+              <Sidebar.Item
+                icon={HiChartPie}
+                active={tab === "dash" || !tab}
+                as="div"
+              >
+                Dashboard
+              </Sidebar.Item>
+            </Link>
+          )}
           <Link to="/dashboard?tab=profile">
             <Sidebar.Item
               icon={HiUser}
@@ -55,15 +67,17 @@ const DashSidebar = () => {
           </Link>
 
           {currentUser.isAdmin && (
-            <Link to="/dashboard?tab=posts">
-              <Sidebar.Item
-                icon={HiDocumentText}
-                active={tab === "posts"}
-                as="div"
-              >
-                Posts
-              </Sidebar.Item>
-            </Link>
+            <>
+              <Link to="/dashboard?tab=posts">
+                <Sidebar.Item
+                  icon={HiDocumentText}
+                  active={tab === "posts"}
+                  as="div"
+                >
+                  Posts
+                </Sidebar.Item>
+              </Link>
+            </>
           )}
 
           {currentUser.isAdmin && (

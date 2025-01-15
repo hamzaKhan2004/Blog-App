@@ -48,15 +48,13 @@ const UpdatePost = () => {
         return;
       }
       setImageUploadError(null);
-      setImageUploadProgress(0); // Reset progress
+      setImageUploadProgress(0);
 
-      // Initialize form data for Cloudinary
       const data = new FormData();
       data.append("file", file);
       data.append("upload_preset", "Post_image");
       data.append("cloud_name", "dij93sjhp");
 
-      // Upload image to Cloudinary
       const res = await axios.post(
         "https://api.cloudinary.com/v1_1/dij93sjhp/image/upload",
         data,
@@ -65,17 +63,16 @@ const UpdatePost = () => {
             const progress = Math.round(
               (progressEvent.loaded / progressEvent.total) * 100
             );
-            setImageUploadProgress(progress); // Update progress
+            setImageUploadProgress(progress);
           },
         }
       );
 
       const uploadImageURL = res.data.secure_url;
 
-      // Reset the state after upload success
       setImageUploadProgress(null);
       setImageUploadError(null);
-      setFormData((prev) => ({ ...prev, image: uploadImageURL })); // Save the image URL
+      setFormData((prev) => ({ ...prev, image: uploadImageURL }));
     } catch (error) {
       console.error("Image upload failed:", error);
       setImageUploadError("Image upload failed");
@@ -131,10 +128,14 @@ const UpdatePost = () => {
             }
             value={formData.category}
           >
-            <option value="uncategorized">Select a category</option>
-            <option value="javascript">JavaScript</option>
-            <option value="reactjs">React Js</option>
-            <option value="nextjs">Next Js</option>
+            <option value="uncategorized">Select Show Name</option>
+            <option value="naruto">Naruto</option>
+            <option value="one-piece">One Piece</option>
+            <option value="attack-on-titan">Attack on Titan</option>
+            <option value="demon-slayer">Demon Slayer</option>
+            <option value="tokyo-revengers">Tokyo Revengers</option>
+            <option value="jujutsu-kaisen">Jujutsu Kaisen</option>
+            <option value="death-note">Death Note</option>
           </Select>
         </div>
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">

@@ -13,7 +13,7 @@ export default function Search() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(false);
-
+  const [initialPost, setInitialPost] = useState([]);
   const location = useLocation();
 
   const navigate = useNavigate();
@@ -43,6 +43,7 @@ export default function Search() {
       if (res.ok) {
         const data = await res.json();
         setPosts(data.posts);
+        setInitialPost(data.posts);
         setLoading(false);
         if (data.posts.length === 9) {
           setShowMore(true);
@@ -99,8 +100,13 @@ export default function Search() {
     }
   };
 
+  const handleShowLess = () => {
+    setPosts(initialPost);
+    setShowMore(true);
+  };
+
   return (
-    <div className="flex flex-col md:flex-row">
+    <div className="flex flex-col md:flex-row ">
       <div className="p-7 border-b md:border-r md:min-h-screen border-gray-500">
         <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
           <div className="flex   items-center gap-2">
@@ -123,16 +129,20 @@ export default function Search() {
             </Select>
           </div>
           <div className="flex items-center gap-2">
-            <label className="font-semibold">Category:</label>
+            <label className="font-semibold">Show Name:</label>
             <Select
               onChange={handleChange}
               value={sidebarData.category}
               id="category"
             >
-              <option value="uncategorized">Uncategorized</option>
-              <option value="reactjs">React.js</option>
-              <option value="nextjs">Next.js</option>
-              <option value="javascript">JavaScript</option>
+              <option value="uncategorized">Select Show Name</option>
+              <option value="naruto">Naruto</option>
+              <option value="one-piece">One Piece</option>
+              <option value="attack-on-titan">Attack on Titan</option>
+              <option value="demon-slayer">Demon Slayer</option>
+              <option value="tokyo-revengers">Tokyo Revengers</option>
+              <option value="jujutsu-kaisen">Jujutsu Kaisen</option>
+              <option value="death-note">Death Note</option>
             </Select>
           </div>
           <Button type="submit" outline gradientDuoTone="purpleToPink">
@@ -144,7 +154,7 @@ export default function Search() {
         <h1 className="text-3xl font-semibold sm:border-b border-gray-500 p-3 mt-5 ">
           Posts results:
         </h1>
-        <div className="p-7 flex flex-wrap gap-4">
+        <div className="p-7 flex flex-wrap gap-10  justify-center">
           {!loading && posts.length === 0 && (
             <p className="text-xl text-gray-500">No posts found.</p>
           )}
@@ -158,6 +168,14 @@ export default function Search() {
               className="text-teal-500 text-lg hover:underline p-7 w-full"
             >
               Show More
+            </button>
+          )}
+          {posts.length > 9 && (
+            <button
+              onClick={handleShowLess}
+              className="text-teal-500 text-lg hover:underline w-full"
+            >
+              Show Less
             </button>
           )}
         </div>

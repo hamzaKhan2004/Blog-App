@@ -10,7 +10,7 @@ const DashPosts = () => {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState("");
-
+  const [initialPost, setInitialPost] = useState([]);
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -18,6 +18,7 @@ const DashPosts = () => {
         const data = await res.json();
         if (res.ok) {
           setUserPosts(data.posts);
+          setInitialPost(data.posts);
           if (data.post.length < 9) {
             setShowMore(false);
           }
@@ -69,6 +70,10 @@ const DashPosts = () => {
     } catch (error) {
       console.log(error.message);
     }
+  };
+  const handleShowLess = () => {
+    setUserPosts(initialPost);
+    setShowMore(true);
   };
   return (
     <div className="w-full table-auto  overflow-x-scroll md:mx-auto p-5 scrollbar scrollbar-track-slate-100 dark:scrollbar-track-slate-700 scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-500">
@@ -141,6 +146,14 @@ const DashPosts = () => {
               className="w-full text-teal-500 self-center text-sm py-7 hover:underline hover:cursor-pointer"
             >
               Show more
+            </button>
+          )}
+          {userPosts.length > 9 && (
+            <button
+              onClick={handleShowLess}
+              className="w-full text-teal-500 self-center text-sm py-7 hover:underline hover:cursor-pointer"
+            >
+              Show less
             </button>
           )}
         </>

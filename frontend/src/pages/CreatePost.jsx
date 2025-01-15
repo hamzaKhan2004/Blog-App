@@ -102,10 +102,14 @@ const CreatePost = () => {
               setFormData({ ...formData, category: e.target.value })
             }
           >
-            <option value="uncategorized">Select a category</option>
-            <option value="javascript">JavaScript</option>
-            <option value="reactjs">React Js</option>
-            <option value="nextjs">Next Js</option>
+            <option value="uncategorized">Select Show Name</option>
+            <option value="naruto">Naruto</option>
+            <option value="one-piece">One Piece</option>
+            <option value="attack-on-titan">Attack on Titan</option>
+            <option value="demon-slayer">Demon Slayer</option>
+            <option value="my-hero-academia">Tokyo Revengers</option>
+            <option value="jujutsu-kaisen">Jujutsu Kaisen</option>
+            <option value="death-note">Death Note</option>
           </Select>
         </div>
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">

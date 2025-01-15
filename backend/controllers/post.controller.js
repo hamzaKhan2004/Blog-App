@@ -19,8 +19,8 @@ export const create = async (req, res, next) => {
     userId: req.user.id,
   });
   try {
-    const savePost = await newPost.save();
-    res.status(201).json(savePost);
+    const savedPost = await newPost.save();
+    res.status(201).json(savedPost);
   } catch (error) {
     next(error);
   }
@@ -48,7 +48,9 @@ export const getposts = async (req, res, next) => {
       .limit(limit);
 
     const totalPosts = await Post.countDocuments();
+
     const now = new Date();
+
     const oneMonthAgo = new Date(
       now.getFullYear(),
       now.getMonth() - 1,

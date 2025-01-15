@@ -13,7 +13,11 @@ const CallToAction = () => {
           gradientDuoTone="purpleToPink"
           className="rounded-tl-xl rounded-bl-none"
         >
-          <a href="#" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://www.hianime.tv"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Watch Now
           </a>
         </Button>

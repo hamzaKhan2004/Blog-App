@@ -52,7 +52,7 @@ const Header = () => {
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-comming"
       >
         <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
-          Hamza
+          Anime
         </span>{" "}
         Blog
       </Link>
@@ -136,6 +136,11 @@ const Header = () => {
             <Link to={"/dashboard?tab=profile"}>
               <Dropdown.Item>Profile</Dropdown.Item>
             </Link>
+            {currentUser.isAdmin && (
+              <Link to={"/create-post"}>
+                <Dropdown.Item>Add Post</Dropdown.Item>
+              </Link>
+            )}
             <Dropdown.Divider />
             <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
           </Dropdown>

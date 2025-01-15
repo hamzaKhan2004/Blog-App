@@ -15,11 +15,16 @@ const Home = () => {
   return (
     <div>
       <div className="flex flex-col gap-6 px-3 max-w-6xl mx-auto p-28">
-        <h1 className="text-3xl font-bold lg:text-6xl">Welcome to my Blog</h1>
+        <h1 className="text-3xl font-bold lg:text-6xl">
+          Welcome to Anime Blog
+        </h1>
         <p className="text-gray-500 text-sm">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui ut fugit
-          perferendis, quos praesentium quidem beatae?
+          Dive into the captivating world of anime, where epic battles,
+          heartfelt stories, and unforgettable characters come to life. From
+          ninja legends to supernatural sagas, explore the universes that ignite
+          our imaginations!
         </p>
+
         <Link
           to="/search"
           className="text-xs sm:text-sm text-teal-500 font-bold hover:underline"
@@ -41,7 +46,12 @@ const Home = () => {
                 <PostCard key={post._id} post={post} />
               ))}
             </div>
-            <Link to="/search" className="text-teal-500 hover:underline text-center">View all posts</Link>
+            <Link
+              to="/search"
+              className="text-teal-500 hover:underline text-center"
+            >
+              View all posts
+            </Link>
           </div>
         )}
       </div>

@@ -15,6 +15,7 @@ import UpdatePost from "./pages/UpdatePost.jsx";
 import PostPage from "./pages/PostPage.jsx";
 import "./index.css";
 import ScrollToTop from "./components/ScrollToTop.jsx";
+import Search from "./pages/Search.jsx";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/project" element={<Projects />}></Route>
           <Route path="/signin" element={<SignIn />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
+          <Route path="/search" element={<Search />}></Route>
           <Route path="/post/:postSlug" element={<PostPage />}></Route>
         </Routes>
         <Footer />

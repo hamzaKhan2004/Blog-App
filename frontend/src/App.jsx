@@ -35,7 +35,7 @@ function App() {
             <Route path="/create-post" element={<CreatePost />}></Route>
             <Route path="/update-post/:postId" element={<UpdatePost />}></Route>
           </Route>
-          <Route path="/project" element={<Projects />}></Route>
+          <Route path="/projects" element={<Projects />}></Route>
           <Route path="/signin" element={<SignIn />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/search" element={<Search />}></Route>
